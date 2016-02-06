@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         if(ope == 0) {
             number1 = number1 * 10 + 1;
             num1Text.setText(number1 + "");
-        }else if(ope == 1){
+        }else{
             number2 = number2 * 10 + 1;
             num2Text.setText(number2 + "");
         }
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         if(ope == 0) {
             number1 = number1 * 10 + 2;
             num1Text.setText(number1 + "");
-        }else if(ope == 1){
+        }else{
             number2 = number2 * 10 + 2;
             num2Text.setText(number2 + "");
         }
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         if(ope == 0) {
         number1 = number1 * 10 + 3;
         num1Text.setText(number1 + "");
-    }else if(ope == 1){
+    }else{
         number2 = number2 * 10 + 3;
         num2Text.setText(number2 + "");
         }
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         if(ope == 0) {
             number1 = number1 * 10 + 4;
             num1Text.setText(number1 + "");
-        }else if(ope == 1){
+        }else{
             number2 = number2 * 10 + 4;
             num2Text.setText(number2 + "");
         }
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         if(ope == 0) {
             number1 = number1 * 10 + 5;
             num1Text.setText(number1 + "");
-        }else if(ope == 1){
+        }else{
             number2 = number2 * 10 + 5;
             num2Text.setText(number2 + "");
         }
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         if(ope == 0) {
             number1 = number1 * 10 + 6;
             num1Text.setText(number1 + "");
-        }else if(ope == 1){
+        }else{
             number2 = number2 * 10 + 6;
             num2Text.setText(number2 + "");
         }
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         if(ope == 0) {
             number1 = number1 * 10 + 7;
             num1Text.setText(number1 + "");
-        }else if(ope == 1){
+        }else{
             number2 = number2 * 10 + 7;
             num2Text.setText(number2 + "");
         }
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         if(ope == 0) {
             number1 = number1 * 10 + 8;
             num1Text.setText(number1 + "");
-        }else if(ope == 1){
+        }else{
             number2 = number2 * 10 + 8;
             num2Text.setText(number2 + "");
         }
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         if(ope == 0) {
             number1 = number1 * 10 + 9;
             num1Text.setText(number1 + "");
-        }else if(ope == 1){
+        }else{
             number2 = number2 * 10 + 9;
             num2Text.setText(number2 + "");
         }
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         if(ope == 0) {
             number1 = number1 * 10 + 0;
             num1Text.setText(number1 + "");
-        }else if(ope == 1) {
+        }else{
             number2 = number2 * 10 + 0;
             num2Text.setText(number2 + "");
         }
@@ -136,13 +136,50 @@ public class MainActivity extends AppCompatActivity {
         opeText.setText("+");
         num2Text.setText("");
     }
+    public void btminus(View v){
+        ope = 2;
+        opeText.setText("-");
+        num2Text.setText("");
+    }
+    public void btmultiplay(View v){
+        ope = 3;
+        opeText.setText("×");
+        num2Text.setText("");
+    }
+    public void btdivide(View v){
+        ope = 4;
+        opeText.setText("÷");
+        num2Text.setText("");
+    }
 
     public void btequal(View v){
         if(ope == 1){
             answer = number1 + number2;
             answerText.setText("=" + answer);
             ope = -1;
+        }else if(ope == 2){
+            answer = number1 - number2;
+            answerText.setText("=" + answer);
+            ope = -1;
+        }else if(ope == 3){
+            answer = number1 * number2;
+            answerText.setText("=" + answer);
+            ope = -1;
+        }else if(ope ==4){
+            answer = number1 / number2;
+            answerText.setText("=" + answer);
+            ope = -1;
         }
+    }
+    public void btreset(View v){
+        number1 = 0;
+        number2 = 0;
+        ope = 0;
+        answer = 0;
+        num1Text.setText("0");
+        num2Text.setText("");
+        opeText.setText("");
+        answerText.setText("");
     }
 
     @Override
