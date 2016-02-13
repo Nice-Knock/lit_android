@@ -1,0 +1,49 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion latestBuildTools()
+
+    defaultConfig {
+        applicationId "com.lifeistech.android.techdragon"
+        minSdkVersion 15
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.android.support:design:22.2.1'
+}
+
+def getSdkDir() {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    def sdkDir = properties.getProperty('sdk.dir', null)
+
+    return sdkDir
+}
+
+def buildToolsList() {
+    new File(getSdkDir(), 'build-tools').list().sort { a, b -> b <=> a }
+}
+
+
+def latestBuildTools() {
+    for (buildTools in buildToolsList()) {
+        if (!(buildTools =~ /.*-preview/)) {
+            return buildTools
+        }
+    }
+
+    return '22.0.0';
+}
