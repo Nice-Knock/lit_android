@@ -1,55 +1,42 @@
 package com.lifeistech.android.twibooker;
 
-import android.content.pm.PackageInstaller;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.facebook.Session;
-import com.facebook.SessionState;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     CallbackManager  callbackManager;
     LoginButton loginButton;
 
+    private static final String TAG = "MainActivity";
+    private static final List<String> PERMISSIONS = Arrays.asList("publish_actions");
+    private EditText mEditText;
+   /* private class SessionStateCallback implements Session.StatusCallback{
+        public void call(Session session,SessionState state,Exception exception){
+            Log.d(TAG,"SessionStatusCallback");
+            onSessionStateChange(session,state,exception);
+        }
+    }*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
         FacebookSdk.sdkInitialize(getApplicationContext());
 
-        callbackManager = CallbackManager.Factory.create();
 
-        LoginManager.getInstance().registerCallback(callbackManager,new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                // App code
-            }
 
-            @Override
-            public void onCancel() {
-                // App code
-            }
-
-            @Override
-            public void onError(FacebookException exception) {
-                // App code
-            }
-        });
-    }
-
-    @Override
-    private void onClicklogin(){
-        Session session = Session.getActionSession;
+        loginButton = (LoginButton)findViewById(R.id.login_button);
     }
 
     @Override

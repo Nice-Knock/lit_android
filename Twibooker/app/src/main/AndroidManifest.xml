@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="975500295839637"/>
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="***************"/>
 
         <activity
             android:name=".MainActivity"
@@ -28,7 +28,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:label="@string/app_name"/>
         <provider
-            android:authorities="com.facebook.app.FacebookContentProvider595222533966906"
+            android:authorities="com.facebook.app.FacebookContentProvider*************"
             android:name="com.facebook.FacebookContentProvider"
             android:exported="true" />
     </application>
