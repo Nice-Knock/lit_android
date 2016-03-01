@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../Twibooker.iml" filepath="$PROJECT_DIR$/../Twibooker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../FacebookSdk4Sample-master.iml" filepath="$PROJECT_DIR$/../FacebookSdk4Sample-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/app.iml" filepath="$PROJECT_DIR$/app.iml" />
     </modules>
   </component>

@@ -1,8 +1,33 @@
 <resources>
     <string name="app_name">Twibooker</string>
-    <string name="action_settings">Settings</string>
-    <string name="facebook_app_id">***************</string>
-    <string name="twitter_consumer_key">***</string>
-    <string name="twittet_sonsumer_secret">***</string>
-    <string name="twitter_callback_url_scheme">http://twitter.com/shin_Getsuya</string>
+    <string name="login">Facebook_Login</string>
+    <string name="photo">Photo</string>
+    <string name="name">Name</string>
+    <string name="birthday">Birthday</string>
+    <string name="fid">FacebookID</string>
+    <string name="gender">Gender</string>
+    <string name="email">E-mail</string>
+    <string name="tid">TwitterID</string>
+    <string name="tname">AccountName</string>
+    <string name="temail">E-mail</string>
+    <string name="tfollow">Follow</string>
+    <string name="tfollower">Follower</string>
+    <string name="menu_reload">更新</string>
+    <string name="tweet">Tweet</string>
+
+    <string name="share">Share</string>
+
+    <string name="share_dialog">Share by dialog</string>
+    <string name="share_auto">Share automatic</string>
+    <string name="share_photo_auto">Share photo automatic</string>
+    <string name="share_auto_completed">Auto share completed!</string>
+    <string name="share_auto_failed">Auto share failed!</string>
+
+    <string name="tlogin">Twitter_Login</string>
+    <string name="twitter_callback_url">niceknock://twitter</string>
+    <string name="menu_setting">Settings</string>
+    <string name="twitter_consumer_key">RUvf1w026yuxbF4UhOjO85ctv</string>
+    <string name="twitter_consumer_secret">	IUIDpDWRnIZG3EJbxfUMTOw7Tcoa4vrG7sykiO0ul5JGfYeeWu
+</string>
+
 </resources>
