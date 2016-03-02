@@ -10,10 +10,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
@@ -23,6 +27,9 @@ import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,6 +49,7 @@ public class ShareActivity extends FragmentActivity {
   private static final String SAMPLE_SHARE_TITLE = "test_title";
   private static final String SAMPLE_SHARE_DESCRIPTION = "test_description";
   private static final String SAMPLE_IMAGE_URL = "";
+  private static final String MESSAGE = "message";
 
   @Bind(R.id.txt_share_auto_result) TextView txtShareAutoResult;
 
@@ -119,17 +127,38 @@ public class ShareActivity extends FragmentActivity {
     callbackManager.onActivityResult(requestCode, resultCode, data);
   }
 
+  @OnClick(R.id.btn_getfeed) void onClickBtnGetfeed(){
+    new GraphRequest(
+            AccessToken.getCurrentAccessToken(),
+            "/me/feed",
+            null,
+            HttpMethod.GET,
+            new GraphRequest.Callback() {
+              public void onCompleted(GraphResponse response) {
+                JSONObject json = response.getJSONObject();
+                Log.i(TAG,json.toString());
+                try{
+                  String message = json.getString(MESSAGE);
+                  Log.i(TAG, String.valueOf(message));
+                }catch (JSONException e){
+                  Log.e(TAG, e.getMessage());
+                }
+              }
+            }
+    ).executeAsync();
+  }
+
   @OnClick(R.id.btn_share_dialog) void onClickBtnShareDialog() {
     if (ShareDialog.canShow(ShareLinkContent.class)) {
       ShareLinkContent content =
-          new ShareLinkContent.Builder().setContentUrl(Uri.parse(SAMPLE_SHARE_URL))
-              .setContentTitle(SAMPLE_SHARE_TITLE)
-              .setContentDescription(SAMPLE_SHARE_DESCRIPTION)
+          new ShareLinkContent.Builder()//.setContentUrl(Uri.parse(SAMPLE_SHARE_URL))
+     //         .setContentTitle(SAMPLE_SHARE_TITLE)
+     //         .setContentDescription(SAMPLE_SHARE_DESCRIPTION)
               .build();
-      ShareDialog.show(this, content);
+      ShareDialog.show(this,content);
     }
   }
-
+/*
   @OnClick(R.id.btn_share_auto) void onClickBtnShareAuto() {
     LoginManager manager = LoginManager.getInstance();
     manager.logInWithPublishPermissions(this, PUBLISH_PERMISSIONS);
@@ -139,7 +168,7 @@ public class ShareActivity extends FragmentActivity {
     LoginManager manager = LoginManager.getInstance();
     manager.logInWithPublishPermissions(this, PUBLISH_PERMISSIONS);
   }
-
+*/
   private void shareToFacebookFeed() {
     ShareLinkContent content =
         new ShareLinkContent.Builder().setContentUrl(Uri.parse(SAMPLE_SHARE_URL))

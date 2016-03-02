@@ -19,7 +19,50 @@ import twitter4j.auth.RequestToken;
 /**
  * Created by ShingoIH49 on 2016/02/28.
  */
+/*
 public class TwitterOathSignIn extends Activity{
+
+    public static RequestToken _req = null;
+    public static OAuthAuthorization _oauth = null;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        TextView btn = (TextView)findViewById(R.id.btn_twitter);
+        btn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                executeOauth();
+            }
+        });
+    }
+
+    private void executeOauth() {
+
+        //Twitetr4Jの設定を読み込む
+        Configuration conf = ConfigurationContext.getInstance();
+
+        //Oauth認証オブジェクト作成
+        _oauth = new OAuthAuthorization(conf);
+        //Oauth認証オブジェクトにconsumerKeyとconsumerSecretを設定
+        _oauth.setOAuthConsumer("RUvf1w026yuxbF4UhOjO85ctv", "IUIDpDWRnIZG3EJbxfUMTOw7Tcoa4vrG7sykiO0ul5JGfYeeWu");
+        //アプリの認証オブジェクト作成
+        try {
+            _req = _oauth.getOAuthRequestToken("Callback://MainActivity");
+        } catch (
+                TwitterException e) {
+            e.printStackTrace();
+        }
+        String _uri;
+        _uri = _req.getAuthorizationURL();
+        startActivityForResult(new Intent(Intent.ACTION_VIEW, Uri.parse(_uri)), 0);
+    }
+}*/
+
+public class TwitterOathSignIn extends Activity {
     private String mCallbackURL;
     private Twitter mTwitter;
     private RequestToken mRequestToken;
@@ -117,3 +160,4 @@ public class TwitterOathSignIn extends Activity{
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 }
+

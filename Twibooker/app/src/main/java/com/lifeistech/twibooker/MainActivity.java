@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.AccessToken;
@@ -17,6 +16,7 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.appevents.AppEventsLogger;
@@ -49,24 +49,27 @@ public class MainActivity extends FragmentActivity {
       TextUtils.join(",", new String[] { ID, NAME, PICTURE, EMAIL, BIRTHDAY, GENDER });
   private static final String FIELDS = "fields";
 
-  @Bind(R.id.img_profile) ImageView imgProfile;
-  @Bind(R.id.txt_id) TextView txtId;
-  @Bind(R.id.txt_name) TextView txtName;
-  @Bind(R.id.txt_birthday) TextView txtBirthday;
-  @Bind(R.id.txt_email) TextView txtEmail;
-  @Bind(R.id.txt_gender) TextView txtGender;
+  private static final String MESSAGE = "message";
+
+  //@Bind(R.id.img_profile) ImageView imgProfile;
+  //@Bind(R.id.txt_id) TextView txtId;
+  //@Bind(R.id.txt_name) TextView txtName;
+  //@Bind(R.id.txt_birthday) TextView txtBirthday;
+  //@Bind(R.id.txt_email) TextView txtEmail;
+  //@Bind(R.id.txt_gender) TextView txtGender;
   @Bind(R.id.btn_twitter)TextView btn_twitter;
-  @Bind(R.id.tid)TextView twitterId;
-  @Bind(R.id.ticon)ImageView tIcon;
-  @Bind(R.id.taccount)TextView tAccount;
-  @Bind(R.id.ntfollow)TextView ntFollow;
-  @Bind(R.id.ntfollower)TextView ntFollower;
+  //@Bind(R.id.tid)TextView twitterId;
+  //@Bind(R.id.ticon)ImageView tIcon;
+  //@Bind(R.id.taccount)TextView tAccount;
+  //@Bind(R.id.ntfollow)TextView ntFollow;
+  //@Bind(R.id.ntfollower)TextView ntFollower;
 
   private CallbackManager callbackManager;
   private AccessTokenTracker accessTokenTracker;
   private ProfileTracker profileTracker;
 
   boolean tLoginFlag = false;
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +95,8 @@ public class MainActivity extends FragmentActivity {
     // Logs 'app deactivate' App Event.
     AppEventsLogger.deactivateApp(this);
   }
+
+
 
   private void initFacebook() {
     FacebookSdk.sdkInitialize(getApplicationContext());
@@ -148,6 +153,20 @@ public class MainActivity extends FragmentActivity {
             renderView(json);
           }
         });
+    new GraphRequest(
+            AccessToken.getCurrentAccessToken(),"/me/feed",null, HttpMethod.GET,new GraphRequest.Callback() {
+      public void onCompleted(GraphResponse response) {
+        JSONObject json = response.getJSONObject();
+        Log.i(TAG,json.toString());
+        try{
+          String message = json.getString(MESSAGE);
+          Log.i(TAG, String.valueOf(message));
+        }catch (JSONException e){
+          Log.e(TAG, e.getMessage());
+        }
+      }
+    }
+    ).executeAsync();
     Bundle parameters = new Bundle();
     parameters.putString(FIELDS, REQUEST_FIELDS);
     request.setParameters(parameters);
@@ -211,6 +230,7 @@ public class MainActivity extends FragmentActivity {
   }
 
   @OnClick(R.id.btn_twitter) void onClickBtnTwitterLogin() {
+
     //ShareActivity.start(this);
     if(tLoginFlag == false){
       tLoginFlag = true;

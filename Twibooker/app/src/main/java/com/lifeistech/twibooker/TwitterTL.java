@@ -32,6 +32,112 @@ import twitter4j.TwitterException;
  * Created by ShingoIH49 on 2016/03/01.
  */
 public class TwitterTL extends ListActivity {
+/*
+    private static final String TOKEN = "token";
+    private static final String TOKEN_SECRET = "token_secret";
+    private static final String PREF_NAME = "twitter_access_token";
+
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_twitter);
+
+        initTwitter();
+
+        //Twitter tw = getTwitterInstance(this);
+        Twitter tw = TwitterFactory.getSingleton();
+        try {
+            //TLの取得
+            //ResponseList<Status> homeTl = tw.getHomeTimeline();
+            List<Status> homeTl = tw.getHomeTimeline();
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1);
+
+            for (Status status : homeTl) {
+                //つぶやきのユーザーIDの取得
+                String userName = status.getUser().getScreenName();
+                //つぶやきの取得
+                String tweet = status.getText();
+                adapter.add("ユーザーID：" + userName + "\r\n" + "tweet：" + tweet);
+            }
+
+            //最後のつぶやきを取得
+            Status s = homeTl.get(homeTl.size());
+            //Pagingオブジェクトの作成
+            Paging p = new Paging();
+            p.setMaxId(s.getId());
+
+            homeTl = null;
+            //Pagingオブジェクトで取得済みのつぶやき以降のつぶやきを取得
+            homeTl = tw.getHomeTimeline(p);
+
+            for (Status status : homeTl) {
+                //つぶやきのユーザーIDの取得
+                String userName = status.getUser().getScreenName();
+                //つぶやきの取得
+                String tweet = status.getText();
+                adapter.add("ユーザーID：" + userName + "\r\n" + "tweet：" + tweet);
+            }
+        } catch (TwitterException e) {
+            e.printStackTrace();
+            if(e.isCausedByNetworkIssue()){
+                Toast.makeText(getApplicationContext(), "ネットワークに接続して下さい", Toast.LENGTH_LONG);
+            }else{
+                Toast.makeText(getApplicationContext(), "エラーが発生しました。", Toast.LENGTH_LONG);
+            }
+        }
+    }
+
+    private void initTwitter(){
+        twitter4j.auth.AccessToken token = null;
+
+        //Twitterの認証画面から発行されるIntentからUriを取得
+        Uri uri = getIntent().getData();
+
+        if(uri != null && uri.toString().startsWith("Callback://CallBackActivity")){
+            //oauth_verifierを取得する
+            String verifier = uri.getQueryParameter("oauth_verifier");
+            try {
+                //AccessTokenオブジェクトを取得
+                token = TwitterOathSignIn._oauth.getOAuthAccessToken(TwitterOathSignIn._req, verifier);
+            } catch (TwitterException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+
+    public static Twitter getTwitterInstance(Context context) {
+        String consumerKey = context.getString(R.string.twitter_consumer_key);
+        String consumerSecret = context.getString(R.string.twitter_consumer_secret);
+
+        TwitterFactory factory = new TwitterFactory();
+        Twitter twitter = factory.getInstance();
+        twitter.setOAuthConsumer(consumerKey, consumerSecret);
+
+        if (hasAccessToken(context)) {
+            twitter.setOAuthAccessToken(loadAccessToken(context));
+        }
+        return twitter;
+    }
+    public static AccessToken loadAccessToken(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(PREF_NAME,
+                Context.MODE_PRIVATE);
+        String token = preferences.getString(TOKEN, null);
+        String tokenSecret = preferences.getString(TOKEN_SECRET, null);
+        if (token != null && tokenSecret != null) {
+            return new AccessToken(token, tokenSecret);
+        } else {
+            return null;
+        }
+    }
+
+
+    public static boolean hasAccessToken(Context context) {
+        return loadAccessToken(context) != null;
+    }
+*/
+
+
 
     private TweetAdapter mAdapter;
     private Twitter mTwitter;
@@ -59,6 +165,8 @@ public class TwitterTL extends ListActivity {
             reloadTimeLine();
         }
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

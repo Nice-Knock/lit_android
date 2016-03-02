@@ -1,41 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="8dp" >
+    android:layout_height="match_parent" >
 
-    <com.loopj.android.image.SmartImageView
-        android:id="@+id/icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/ic_launcher" />
+    <RelativeLayout
+        android:id="@+id/left_draw"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <com.loopj.android.image.SmartImageView
+            android:id="@+id/icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/ic_launcher" />
 
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/icon"
-        android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@+id/icon"
-        android:text="アカウント名" />
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/icon"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/icon"
+            android:text="アカウント名" />
 
-    <TextView
-        android:id="@+id/screen_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/name"
-        android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@+id/name"
-        android:text="\uFF20niceknock" />
+        <TextView
+            android:id="@+id/screen_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/name"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/name"
+            android:text="\uFF20niceknock" />
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/name"
-        android:layout_below="@+id/name"
-        android:text="本文本文本文本文本文本文本文本文本文本文" />
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/name"
+            android:layout_below="@+id/name"
+            android:text="本文本文本文本文本文本文本文本文本文本文" />
+    </RelativeLayout>
 
-</RelativeLayout>
+    <LinearLayout
+        android:id="@+id/left_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:background="#808080"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/drawer_button1"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="メニュー1" />
+        <Button
+            android:id="@+id/drawer_button2"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="メニュー2" />
+        <Button
+            android:id="@+id/drawer_button3"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="メニュー3" />
+    </LinearLayout>
+
+</android.support.v4.widget.DrawerLayout>
