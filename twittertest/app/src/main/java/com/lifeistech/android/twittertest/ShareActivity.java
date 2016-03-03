@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -75,6 +77,32 @@ public class ShareActivity extends FragmentActivity {
 
     initFacebook();
     initToolbar();
+
+    new GraphRequest(
+            AccessToken.getCurrentAccessToken(),
+            "/me/feed",
+            null,
+            HttpMethod.GET,
+            new GraphRequest.Callback() {
+              public void onCompleted(GraphResponse response) {
+                JSONObject json = response.getJSONObject();
+                try{
+                  JSONArray jsons = json.getJSONArray("data");
+                  for(int i = 0; i < jsons.length(); i++){
+                    JSONObject fData = jsons.getJSONObject(i);
+                    if(fData.has("message")){
+                      msgList.add(fData.getString("message") + "\n");
+                    }
+                  }
+                  ArrayAdapter adapter = new ArrayAdapter<>(
+                          this,android.R.layout.simple_list_item_1,msgList);
+                  feedview.setAdapter(adapter);
+                }catch (JSONException e){
+                  Log.e(TAG, e.getMessage());
+                }
+              }
+            }
+    ).executeAsync();
   }
 
   @Override
@@ -134,7 +162,6 @@ public class ShareActivity extends FragmentActivity {
   }
 
   @OnClick(R.id.btn_getfeed) void onClickBtnGetfeed(){
-    final Intent intent = new Intent(this,ShareActivity.class);
     new GraphRequest(
             AccessToken.getCurrentAccessToken(),
             "/me/feed",
@@ -151,8 +178,8 @@ public class ShareActivity extends FragmentActivity {
                       msgList.add(fData.getString("message") + "\n");
                     }
                   }
-                  intent.putStringArrayListExtra("feedlist",msgList);
-                  startActivity(intent);
+                  ListAdapter adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,msgList);
+
                 }catch (JSONException e){
                   Log.e(TAG, e.getMessage());
                 }
