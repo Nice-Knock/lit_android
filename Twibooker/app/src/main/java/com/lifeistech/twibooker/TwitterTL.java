@@ -6,12 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -32,7 +33,156 @@ import twitter4j.TwitterException;
  * Created by ShingoIH49 on 2016/03/01.
  */
 public class TwitterTL extends ListActivity {
-/*
+    private TweetAdapter mAdapter;
+    private Twitter mTwitter;
+    private SimpleSideDrawer mSlidingMenu;
+    private GestureDetector mGestureDetector;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout mDrawer;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mSlidingMenu = new SimpleSideDrawer(this);
+        mSlidingMenu.setLeftBehindContentView(R.layout.sidemenu_twitter);
+
+        //mGestureDetector = new GestureDetector(this,mOnGestureListener);
+
+        if (!TwitterUtils.hasAccessToken(this)) {
+            Intent intent = new Intent(this, TwitterOathSignIn.class);
+            startActivity(intent);
+            finish();
+        } else {
+            mAdapter = new TweetAdapter(this);
+            setListAdapter(mAdapter);
+
+            mTwitter = TwitterUtils.getTwitterInstance(this);
+            reloadTimeLine();
+        }
+    }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    /*private final GestureDetector.SimpleOnGestureListener mOnGestureListener = new GestureDetector.SimpleOnGestureListener(){
+        @Override
+        public boolean onFling(MotionEvent e1,MotionEvent e2,float velx,float vely){
+            float dx = Math.abs(velx);
+            float dy = Math.abs(vely);
+            if(dx > dy && dx > 300){
+                if (e1.getX() < e2.getX()){
+                    mSlidingMenu.toggleLeftDrawer();
+                }
+            }
+            return false;
+        }
+    };*/
+
+    public void onClickTweetButton(View v){
+        Intent intent = new Intent(this, TweetActivity.class);
+        startActivity(intent);
+        reloadTimeLine();
+    }
+    public void onClickFacebookButton(View v){
+        Intent intent = new Intent(this,ShareActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.btn_tweet) void onClickTweetButton(){
+        Intent intent = new Intent(this, TweetActivity.class);
+        startActivity(intent);
+        reloadTimeLine();
+    }
+    @OnClick(R.id.btn_picture) void onClickPictureButton(){
+
+    }
+    @OnClick(R.id.btn_sharefacebook) void onClickFacebookButton(){
+        Intent intent = new Intent(this,ShareActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_reload:
+                reloadTimeLine();
+                return true;
+            case R.id.menu_tweet:
+                Intent intent = new Intent(this, TweetActivity.class);
+                startActivity(intent);
+                reloadTimeLine();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private class TweetAdapter extends ArrayAdapter<Status> {
+
+        private LayoutInflater mInflater;
+
+        public TweetAdapter(Context context) {
+            super(context, android.R.layout.simple_list_item_1);
+            mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                convertView = mInflater.inflate(R.layout.activity_twitter, null);
+            }
+            Status item = getItem(position);
+            TextView name = (TextView) convertView.findViewById(R.id.name);
+            name.setText(item.getUser().getName());
+            TextView screenName = (TextView) convertView.findViewById(R.id.screen_name);
+            screenName.setText("@" + item.getUser().getScreenName());
+            TextView text = (TextView) convertView.findViewById(R.id.text);
+            text.setText(item.getText());
+            SmartImageView icon = (SmartImageView) convertView.findViewById(R.id.icon);
+            icon.setImageUrl(item.getUser().getProfileImageURL());
+            return convertView;
+        }
+    }
+
+    private void reloadTimeLine() {
+        AsyncTask<Void, Void, List<Status>> task = new AsyncTask<Void, Void, List<Status>>() {
+            @Override
+            protected List<twitter4j.Status> doInBackground(Void... params) {
+                try {
+                    return mTwitter.getHomeTimeline();
+                } catch (TwitterException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(List<twitter4j.Status> result) {
+                super.onPostExecute(result);
+                if (result != null) {
+                    mAdapter.clear();
+                    for (twitter4j.Status status : result) {
+                        mAdapter.add(status);
+                    }
+                    getListView().setSelection(0);
+                } else {
+                    showToast("GetTimeline_Failed");
+                }
+            }
+        };
+        task.execute();
+    }
+
+    private void showToast(String text) {
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    }
+
+    /*
     private static final String TOKEN = "token";
     private static final String TOKEN_SECRET = "token_secret";
     private static final String PREF_NAME = "twitter_access_token";
@@ -136,136 +286,4 @@ public class TwitterTL extends ListActivity {
         return loadAccessToken(context) != null;
     }
 */
-
-
-
-    private TweetAdapter mAdapter;
-    private Twitter mTwitter;
-    private SimpleSideDrawer mSlidingMenu;
-    private GestureDetector mGestureDetector;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mSlidingMenu = new SimpleSideDrawer(this);
-        mSlidingMenu.setLeftBehindContentView(R.layout.sidemenu_twitter);
-
-        mGestureDetector = new GestureDetector(this,mOnGestureListener);
-
-        if (!TwitterUtils.hasAccessToken(this)) {
-            Intent intent = new Intent(this, TwitterOathSignIn.class);
-            startActivity(intent);
-            finish();
-        } else {
-            mAdapter = new TweetAdapter(this);
-            setListAdapter(mAdapter);
-
-            mTwitter = TwitterUtils.getTwitterInstance(this);
-            reloadTimeLine();
-        }
-    }
-
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-    private final GestureDetector.SimpleOnGestureListener mOnGestureListener = new GestureDetector.SimpleOnGestureListener(){
-        @Override
-        public boolean onFling(MotionEvent e1,MotionEvent e2,float velx,float vely){
-            float dx = Math.abs(velx);
-            float dy = Math.abs(vely);
-            if(dx > dy && dx > 300){
-                if (e1.getX() < e2.getX()){
-                    mSlidingMenu.toggleLeftDrawer();
-                }
-            }
-            return false;
-        }
-    };
-
-
-    @OnClick(R.id.btn_twitter) void onClickTweetButton(){
-        Intent intent = new Intent(this, TweetActivity.class);
-        startActivity(intent);
-        reloadTimeLine();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_reload:
-                reloadTimeLine();
-                return true;
-            case R.id.menu_tweet:
-                Intent intent = new Intent(this, TweetActivity.class);
-                startActivity(intent);
-                reloadTimeLine();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private class TweetAdapter extends ArrayAdapter<Status> {
-
-        private LayoutInflater mInflater;
-
-        public TweetAdapter(Context context) {
-            super(context, android.R.layout.simple_list_item_1);
-            mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.activity_twitter, null);
-            }
-            Status item = getItem(position);
-            TextView name = (TextView) convertView.findViewById(R.id.name);
-            name.setText(item.getUser().getName());
-            TextView screenName = (TextView) convertView.findViewById(R.id.screen_name);
-            screenName.setText("@" + item.getUser().getScreenName());
-            TextView text = (TextView) convertView.findViewById(R.id.text);
-            text.setText(item.getText());
-            SmartImageView icon = (SmartImageView) convertView.findViewById(R.id.icon);
-            icon.setImageUrl(item.getUser().getProfileImageURL());
-            return convertView;
-        }
-    }
-
-    private void reloadTimeLine() {
-        AsyncTask<Void, Void, List<Status>> task = new AsyncTask<Void, Void, List<Status>>() {
-            @Override
-            protected List<twitter4j.Status> doInBackground(Void... params) {
-                try {
-                    return mTwitter.getHomeTimeline();
-                } catch (TwitterException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(List<twitter4j.Status> result) {
-                if (result != null) {
-                    mAdapter.clear();
-                    for (twitter4j.Status status : result) {
-                        mAdapter.add(status);
-                    }
-                    getListView().setSelection(0);
-                } else {
-                    showToast("GetTimeline_Failed");
-                }
-            }
-        };
-        task.execute();
-    }
-
-    private void showToast(String text) {
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
-    }
 }

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
     <RelativeLayout
-        android:id="@+id/left_draw"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:id="@+id/android:list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <com.loopj.android.image.SmartImageView
             android:id="@+id/icon"
             android:layout_width="40dp"
@@ -43,29 +44,65 @@
             android:text="本文本文本文本文本文本文本文本文本文本文" />
     </RelativeLayout>
 
-    <LinearLayout
+    <android.support.v4.widget.DrawerLayout
         android:id="@+id/left_drawer"
         android:layout_width="240dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="left"
+        android:layout_height="570dp"
+        android:layout_gravity="start"
         android:background="#808080"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/drawer_button1"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="メニュー1" />
-        <Button
-            android:id="@+id/drawer_button2"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="メニュー2" />
-        <Button
-            android:id="@+id/drawer_button3"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="メニュー3" />
-    </LinearLayout>
+            android:layout_height="match_parent">
 
-</android.support.v4.widget.DrawerLayout>
+            <Button
+                android:id="@+id/drawer_button1"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="メニュー1" />
+
+            <Button
+                android:id="@+id/drawer_button2"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="メニュー2" />
+
+            <Button
+                android:id="@+id/drawer_button3"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="メニュー3" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:id="@+id/btn_tweet"
+                    android:layout_weight="1"
+                    android:src="@drawable/twitter"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:id="@+id/btn_picutre"
+                    android:layout_weight="1"
+                    android:src="@drawable/tpicture" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:id="@+id/btn_sharefacebook"
+                    android:layout_weight="1"
+                    android:src="@drawable/facebook"/>
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.DrawerLayout>
+
+</RelativeLayout>
