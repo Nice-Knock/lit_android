@@ -31,6 +31,8 @@
         android:layout_gravity="center" />
 
 
+    <
+
     <TextView
         android:id="@+id/btn_twitter"
         android:text="@string/tlogin"

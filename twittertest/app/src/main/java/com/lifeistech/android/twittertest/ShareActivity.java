@@ -91,11 +91,11 @@ public class ShareActivity extends FragmentActivity {
                   for(int i = 0; i < jsons.length(); i++){
                     JSONObject fData = jsons.getJSONObject(i);
                     if(fData.has("message")){
-                      msgList.add(fData.getString("message") + "\n");
+                      msgList.add(fData.getString("message"));
                     }
                   }
-                  ArrayAdapter adapter = new ArrayAdapter<>(
-                          this,android.R.layout.simple_list_item_1,msgList);
+                  ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                          ShareActivity.this,android.R.layout.simple_list_item_1,msgList);
                   feedview.setAdapter(adapter);
                 }catch (JSONException e){
                   Log.e(TAG, e.getMessage());
@@ -178,7 +178,9 @@ public class ShareActivity extends FragmentActivity {
                       msgList.add(fData.getString("message") + "\n");
                     }
                   }
-                  ListAdapter adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,msgList);
+                  ListAdapter adapter = new ArrayAdapter<String>(
+                          ShareActivity.this,android.R.layout.simple_list_item_1,msgList);
+                  feedview.setAdapter(adapter);
 
                 }catch (JSONException e){
                   Log.e(TAG, e.getMessage());
