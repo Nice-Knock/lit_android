@@ -1,4 +1,19 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    jcenter()
+    maven { url 'https://maven.fabric.io/public' }
+}
 
 android {
     compileSdkVersion 23
@@ -37,4 +52,24 @@ dependencies {
     compile files('libs/twitter4j-stream-3.0.3.jar')
     compile 'com.facebook.android:facebook-android-sdk:4.10.0'
     compile 'com.jakewharton:butterknife:7.0.1'
+    // Crashlytics Kit
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+        transitive = true
+    }
+
+    // Twitter Kit
+    compile('com.twitter.sdk.android:twitter:1.12.1@aar') {
+        transitive = true
+    }
+
+    // Digits Kit
+    compile('com.digits.sdk.android:digits:1.9.3@aar') {
+            transitive = true
+    }
+    // MoPub Kit
+    compile('com.mopub.sdk.android:mopub:4.3.0@aar') {
+    transitive = true
+    }
+
+
 }

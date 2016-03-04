@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,10 +11,54 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.lifeistech.android.twittertest.MainActivity"
-    tools:showIn="@layout/app_bar_main">
+    tools:showIn="@layout/app_bar_twitter"
+    android:orientation="vertical">
+
+    <TextView android:id="@id/android:empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/empty"
+        android:layout_weight="7.92" />
+
+    <ListView android:id="@id/android:list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:drawSelectorOnTop="false"/>
 
 
-    <Button android:id="@+id/twitterLogin"
+
+    <!--<LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.twitter.sdk.android.core.identity.TwitterLoginButton
+            android:id="@+id/twitterLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/spacing_xlarge"
+            style="@style/Button.Theme"/>
+
+        <TextView
+            android:id="@+id/btn_twitter"
+            android:text="@string/tlogin"
+            android:layout_marginTop="@dimen/spacing_xlarge"
+            style="@style/Button.Theme"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/timeline"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>-->
+
+    <!--<Button android:id="@+id/twitterLogin"
         android:layout_height="wrap_content" android:layout_width="fill_parent"></Button>
     <Button android:id="@+id/getTweet" android:text="start streaming"
         android:layout_width="fill_parent" android:layout_height="wrap_content" android:enabled="false"></Button>
@@ -21,5 +66,5 @@
         android:layout_width="fill_parent" android:layout_height="fill_parent">
         <TextView android:id="@+id/tweetText"
             android:layout_width="fill_parent" android:layout_height="wrap_content"/>
-    </ScrollView>
-</RelativeLayout>
+    </ScrollView>-->
+</LinearLayout>

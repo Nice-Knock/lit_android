@@ -30,8 +30,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
 
-
-    <
+    <com.twitter.sdk.android.core.identity.TwitterLoginButton
+        android:id="@+id/twitterLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/spacing_xlarge"
+        style="@style/Button.Theme"/>
 
     <TextView
         android:id="@+id/btn_twitter"

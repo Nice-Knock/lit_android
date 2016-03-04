@@ -21,13 +21,15 @@
     <string name="tfollow">Follow</string>
     <string name="tfollower">Follower</string>
     <string name="menu_reload">更新</string>
-    <string name="tweet">Tweet</string>
+    <string name="tweet">つぶやく</string>
     <string name="share_dialog">Feedへ投稿</string>
     <string name="share_auto">Share automatic</string>
     <string name="share_photo_auto">Share photo automatic</string>
     <string name="share_auto_completed">Auto share completed!</string>
     <string name="share_auto_failed">Auto share failed!</string>
     <string name="share">Share</string>
+    <string name="empty">oops, this is empty.</string>
+    <string name="timeline">タイムライン</string>
 
     <string name="tlogin">Twitter_Login</string>
     <string name="twitter_callback_url">niceknock://twitter</string>

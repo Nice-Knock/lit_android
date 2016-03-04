@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.facebook.AccessToken;
@@ -28,6 +29,14 @@ import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.core.identity.TwitterLoginButton;
+import com.twitter.sdk.android.core.models.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,9 +47,21 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+                implements NavigationView.OnNavigationItemSelectedListener {
+
+    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
+    private static final String TWITTER_KEY = "RUvf1w026yuxbF4UhOjO85ctv";
+    private static final String TWITTER_SECRET = "IUIDpDWRnIZG3EJbxfUMTOw7Tcoa4vrG7sykiO0ul5JGfYeeWu";
+
+    private TwitterLoginButton twitterLoginButton;
+    Long userId;
+    TwitterSession session;
+    TextView textView;
+
+
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final List<String> READ_PERMISSIONS =
             Arrays.asList("email", "user_birthday", "user_friends");
@@ -56,12 +77,13 @@ public class MainActivity extends AppCompatActivity
     private static final String FIELDS = "fields";
     private static final String MESSAGE = "message";
 
-
+    @Bind(R.id.btn_login) TextView btn_facebook;
     @Bind(R.id.btn_twitter)TextView btn_twitter;
     private CallbackManager callbackManager;
     private AccessTokenTracker accessTokenTracker;
     private ProfileTracker profileTracker;
     private LoginButton loginButton;
+
 
     boolean tLoginFlag = false;
 
@@ -69,6 +91,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -98,7 +122,67 @@ public class MainActivity extends AppCompatActivity
         loginButton.setReadPermissions("user_posts");
         initFacebook();
         initToolbar();
+        initTwitter();
     }
+    public void initTwitter(){
+        twitterLoginButton = (TwitterLoginButton)findViewById(R.id.twitterLogin);
+        twitterLoginButton.setCallback(new Callback<TwitterSession>() {
+            @Override
+            public void success(Result<TwitterSession> result) {
+                startTwitterTL();
+            }
+
+            @Override
+            public void failure(TwitterException e) {
+
+            }
+        });
+        if(tLoginFlag != false)
+        twitterLoginButton.setVisibility(View.VISIBLE);
+    }
+
+    private void startTwitterTL(){
+        final Intent intent = new Intent(this,TwitterTL.class);
+        tLoginFlag = true;
+        btn_twitter.setText("Twitter_TL");
+        startActivity(intent);
+    }
+
+
+    void getUserData() {
+        Twitter.getApiClient(session).getAccountService()
+                .verifyCredentials(true, false, new Callback<User>() {
+
+                    @Override
+                    public void failure(TwitterException e) {
+
+                    }
+
+                    @Override
+                    public void success(Result<User> userResult) {
+
+                        User user = userResult.data;
+                        String twitterImage = user.profileImageUrl;
+
+                        try {
+                            Log.d("imageurl", user.profileImageUrl);
+                            Log.d("name", user.name);
+                            //Log.d("email",user.email);
+                            Log.d("des", user.description);
+                            Log.d("followers ", String.valueOf(user.followersCount));
+                            Log.d("createdAt", user.createdAt);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+
+                });
+// Can also use Twitter directly: Twitter.getApiClient()
+
+    }
+
     /*
     @OnClick(R.id.btn_getfeed) void onClickBtnGetfeed(){
         new GraphRequest(
@@ -124,6 +208,7 @@ public class MainActivity extends AppCompatActivity
 
     private void initFacebook() {
 
+        btn_facebook.setText("Facebook_Feed & Post");
         callbackManager = CallbackManager.Factory.create();
 
 
@@ -238,6 +323,7 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+        twitterLoginButton.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -259,7 +345,7 @@ public class MainActivity extends AppCompatActivity
         if(tLoginFlag == false){
             tLoginFlag = true;
             btn_twitter.setText("Twitter_TL");
-            Intent intent = new Intent(this,TwitterApp.class);
+            Intent intent = new Intent(this,TwitterTL.class);
             startActivity(intent);
       /*
       if (!TwitterUtils.hasAccessToken(this)) {
@@ -267,7 +353,7 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
       }*/
         }else{
-            Intent intent = new Intent(this,TwitterApp.class);
+            Intent intent = new Intent(this,TwitterTL.class);
             startActivity(intent);
         }
     }
@@ -319,7 +405,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_tweet) {
-            Intent intent = new Intent(this, TwitterApp.class);
+            Intent intent = new Intent(this, TwitterTL.class);
             startActivity(intent);
         } else if (id == R.id.nav_share) {
             Intent intent = new Intent(this,ShareActivity.class);
