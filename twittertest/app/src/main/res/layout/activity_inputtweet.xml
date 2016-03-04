@@ -5,9 +5,11 @@
     android:background="#fff"
     android:padding="8dp">
     <android.support.design.widget.AppBarLayout
-        android:layout_width="fill_parent"
+        android:layout_width="450dp"
         android:layout_height="wrap_content"
-        android:id="@+id/view">
+        android:id="@+id/view"
+        android:layout_marginLeft="-10dp"
+        android:layout_marginRight="10dp">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"

@@ -18,7 +18,7 @@
         android:id="@+id/facebook_login"
         android:layout_marginTop="@dimen/spacing_xlarge"
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_gravity="center"/>
 
     <TextView
@@ -32,10 +32,10 @@
 
     <com.twitter.sdk.android.core.identity.TwitterLoginButton
         android:id="@+id/twitterLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/spacing_xlarge"
+        android:layout_marginTop="60dp"
         style="@style/Button.Theme"/>
 
     <TextView
